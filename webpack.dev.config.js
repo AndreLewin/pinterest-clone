@@ -1,0 +1,45 @@
+require('dotenv').load();
+
+module.exports = {
+    entry: {
+        app: './client/index.jsx'
+    },
+    output: {
+        filename: 'assets/[name].js',
+        // Define the target directory of filename
+        path: '/',
+        // Define the target directory of the assets (images, css)
+        publicPath: `http://localhost:${process.env.PORT}/`
+        // FOR PRODUCTION // publicPath: '/'
+    },
+    devServer: {
+        historyApiFallback: true,
+        contentBase: './',
+        hot: true,
+        port: process.env.PORT,
+    },
+    module: {
+        rules: [
+            {
+              test: /\.(js|jsx)$/,
+              loaders: 'babel-loader',
+              exclude: /node_modules/,
+              query: {
+                presets: ['react', 'stage-0']
+              }
+            },
+            {test: /\.css$/, use: ['style-loader', 'css-loader']},
+            {test: /\.scss$/, use: ["style-loader", "css-loader", "sass-loader"]},
+            {test: /\.(png|jpg|gif)$/, use: ["file-loader"]},
+        ]
+    }
+};
+
+/*
+
+        hot: true,
+        inline: true,
+        watchOptions: {
+            ignored: ['node_modules/', 'test/', 'server/', 'test/', 'public/'],
+        },
+ */
